@@ -1,135 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#0e1116" />
-  <title>Money Helper Pro — Web</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helper Money Pro</title>
+  <link rel="stylesheet" href="styles.css?v=4" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="assets/icon.png" />
-  <link rel="stylesheet" href="styles.css" />
-  <!-- Lightweight Charts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightweight-charts/4.2.1/lightweight-charts.standalone.production.min.js" defer></script>
-  <script src="indicators.js" type="module"></script>
-  <script src="smc.js" type="module"></script>
-  <script src="app.js" type="module"></script>
 </head>
 <body>
-  <header class="app-header">
-    <div class="brand">
-      <img src="assets/icon.png" alt="logo" />
-      <div>
-        <h1>Money Helper Pro</h1>
-        <p class="subtitle">AI трейд‑ассистент • Smart Money • Объёмы • Паттерны</p>
-      </div>
+  <div class="app">
+    <h1>📊 Helper Money Pro</h1>
+
+    <div class="controls">
+      <button id="analyze">Анализировать</button>
+      <label>
+        <input type="checkbox" id="devmode" />
+        Dev-режим
+      </label>
     </div>
-    <div class="header-actions">
-      <button id="installPWA" title="Установить как приложение">⬇️ Установить</button>
-      <button id="enablePush" title="Включить уведомления">🔔 Уведомления</button>
-    </div>
-  </header>
 
-  <main class="container">
-    <section class="panel controls">
-      <div class="field">
-        <label>Валютная пара</label>
-        <select id="pair">
-          <option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option><option>USD/CHF</option><option>USD/CAD</option>
-          <option>AUD/USD</option><option>NZD/USD</option><option>EUR/JPY</option><option>GBP/JPY</option><option>CAD/CHF</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Таймфрейм</label>
-        <select id="tf">
-          <option value="5">M5</option><option value="15">M15</option><option value="60">H1</option><option value="240">H4</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Режимы</label>
-        <div class="row row-wrap">
-          <label class="switch"><input type="checkbox" id="otc"/><span class="slider"></span></label><span>ОТС</span>
-          <label class="switch"><input type="checkbox" id="devmode"/><span class="slider"></span></label><span>Dev‑режим</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Профиль стратегии</label>
-        <select id="profile">
-          <option value="safe">Консервативный (Safe)</option>
-          <option value="balanced" selected>Сбалансированный</option>
-          <option value="aggressive">Агрессивный</option>
-        </select>
-      </div>
-      <div class="actions">
-        <button id="analyze">🔍 Анализировать</button>
-        <button id="refresh">↻ Обновить данные</button>
-      </div>
-    </section>
+    <div id="output"></div>
+    <canvas id="chart"></canvas>
+  </div>
 
-    <section class="panel chart-panel">
-      <div id="chart" class="chart"></div>
-    </section>
-
-    <section class="panel results">
-      <div class="result-grid">
-        <div>
-          <h3>Сделка</h3>
-          <p id="direction">—</p>
-          <p id="entry">Вход: —</p>
-          <p id="tp">TP: —</p>
-          <p id="sl">SL: —</p>
-        </div>
-        <div>
-          <h3>Качество</h3>
-          <p id="prob">Вероятность: —</p>
-          <p id="rr">R:R: —</p>
-          <p id="confidence">Подтверждения: —</p>
-        </div>
-        <div>
-          <h3>Время</h3>
-          <p id="timeReco">Рекомендация по времени: —</p>
-          <p id="session">Сессия: —</p>
-          <p id="news">Новости: —</p>
-        </div>
-      </div>
-      <div>
-        <h3>Комментарий AI</h3>
-        <p id="aiComment">Нажмите «Анализировать», чтобы получить мнение ассистента.</p>
-      </div>
-    </section>
-
-    <section class="panel results" id="devPanel" style="display:none; margin-top:8px">
-      <h3>Dev‑панель</h3>
-      <div class="result-grid">
-        <div>
-          <p id="dbg-ema">EMA12/26: —</p>
-          <p id="dbg-atr">ATR(14): —</p>
-          <p id="dbg-rsi">RSI(14): —</p>
-        </div>
-        <div>
-          <p id="dbg-bos">BOS: —</p>
-          <p id="dbg-ob">OB: —</p>
-          <p id="dbg-vol">Volatility proxy: —</p>
-        </div>
-        <div>
-          <p id="dbg-conf">Подтверждения: —</p>
-          <p id="dbg-rr">R:R: —</p>
-          <p id="dbg-prob">Вероятность: —</p>
-        </div>
-      </div>
-      <p style="opacity:.7">Подробные логи — в консоли браузера.</p>
-    </section>
-
-    <section class="panel disclaimer">
-      <p>⚠️ Отказ от ответственности: результаты носят информационный характер и не являются инвестиционной рекомендацией.</p>
-    </section>
-  </main>
-
-  <footer class="app-footer">
-    <small>© Money Helper Pro • 2025</small>
-  </footer>
-
-  <script>
-    if ('serviceWorker' in navigator) {{ navigator.serviceWorker.register('./sw.js'); }}
-  </script>
+  <!-- Подключение JS -->
+  <script src="indicators.js?v=4" type="module"></script>
+  <script src="smc.js?v=4" type="module"></script>
+  <script src="app.js?v=4" type="module"></script>
 </body>
 </html>
