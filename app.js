@@ -186,4 +186,26 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js'); }
   runAnalysis();
+});document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("analyze");
+  const output = document.getElementById("output");
+  const devmode = document.getElementById("devmode");
+
+  if (!btn) {
+    console.error("Кнопка 'Анализировать' не найдена!");
+    return;
+  }
+
+  btn.addEventListener("click", () => {
+    output.innerHTML = "<p>🔎 Идёт анализ рынка...</p>";
+
+    // имитация анализа (заменим позже на реальную логику)
+    setTimeout(() => {
+      let result = "✅ Анализ завершён: рекомендуем LONG на EUR/USD (5m).";
+      if (devmode.checked) {
+        result += "<br/>[Dev] EMA 50 выше EMA 200, BOS вверх.";
+      }
+      output.innerHTML = `<p>${result}</p>`;
+    }, 1500);
+  });
 });
